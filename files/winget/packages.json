@@ -5,6 +5,9 @@
     {
       "Packages": [
         {
+          "PackageIdentifier": "Anaconda.Anaconda3"
+        },
+        {
           "PackageIdentifier": "CoreyButler.NVMforWindows"
         },
         {
@@ -56,6 +59,9 @@
           "PackageIdentifier": "Microsoft.Azure.StorageEmulator"
         },
         {
+          "PackageIdentifier": "Microsoft.Azure.StorageExplorer"
+        },
+        {
           "PackageIdentifier": "Microsoft.BingWallpaper"
         },
         {
@@ -105,12 +111,6 @@
         },
         {
           "PackageIdentifier": "SlackTechnologies.Slack"
-        },
-        {
-          "PackageIdentifier": "Zoom.Zoom"
-        },
-        {
-          "PackageIdentifier": "Zoom.ZoomOutlookPlugin"
         }
       ],
       "SourceDetails": {

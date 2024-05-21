@@ -30,7 +30,7 @@ function Clear-RepositoryBranches() {
   }
 }
 
-# Docker - These functions include general Docker commands that might be useful
+## Docker - These functions include general Docker commands that might be useful
 function Clear-Docker { docker image prune -a --filter 'until=12h'; docker system prune }
 
 
@@ -49,15 +49,6 @@ function Set-JavaHome([int] $Version) {
   }
   
   switch ($Version) {
-    11 {
-      if (-NOT (Test-Path -Path $env:JDK_11_HOME)) {
-        Write-Output "No JDK configured for version $PSItem... Aborted."
-        break
-      }
-
-      $CurrentJdk = $env:JDK_11_HOME
-      break
-    }
     17 {
       if (-NOT (Test-Path -Path $env:JDK_17_HOME)) {
         Write-Output "No JDK configured for version $PSItem... Aborted."
@@ -85,13 +76,39 @@ function Set-JavaHome([int] $Version) {
   }
 }
 
+Set-Alias -Name sjh -Value Set-JavaHome
+Set-Alias -Name rsjh -Value Reset-JavaHome
+
+## Personal projects
+function Set-LocationToVictorFryeRepositories {
+  Set-Location $env:REPOS_VF
+}
+
+function Set-LocationToVictorFryeDotfiles {
+  Set-Location $env:SRC_VFDF
+}
+
+function Set-LocationToVictorFryeDotCom {
+  Set-Location $env:SRC_VFCOM
+}
+
+function Set-LocationToMicrosoftGraveyard {
+  Set-Location $env:SRC_MSG
+}
+
+Set-Alias -Name slvf -Value Set-LocationToVictorFryeRepositories
+Set-Alias -Name slvfdf -Value Set-LocationToVictorFryeDotfiles
+Set-Alias -Name slvfcom -Value Set-LocationToVictorFryeDotCom
+Set-Alias -Name slmsg -Value Set-LocationToMicrosoftGraveyard
 
 ## Miscellaneous
 function Get-Path() {
   Write-Output $Env:PATH.Split(';')
 }
 
-# Aliases
 Set-Alias -Name code -Value code-insiders
-Set-Alias -Name sjh -Value Set-JavaHome
-Set-Alias -Name rsjh -Value Reset-JavaHome
+
+# Environment Variables
+$env:SRC_VFDF = Join-Path $env:REPOS_VF 'Dotfiles'
+$env:SRC_VFCOM = Join-Path $env:REPOS_VF 'DotCom'
+$env:SRC_MSG = Join-Path $env:REPOS_VF 'MicrosoftGraveyard'
