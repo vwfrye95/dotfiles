@@ -1,0 +1,7 @@
+{
+  "Az": {
+    "DefaultSubscriptionForLogin": "victorfrye",
+    "CheckForUpgrade": true,
+    "EnableLoginByWam": true
+  }
+}

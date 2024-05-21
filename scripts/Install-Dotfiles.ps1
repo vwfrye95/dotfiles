@@ -64,16 +64,16 @@ function Get-Repository() {
 function Install-WinGetPackages() {
     Write-Host 'Installing WinGet packages...'
 
-    $PackagesFile = Join-Path $global:RepoRoot '\files\Packages.json'
+    $PackagesFile = Join-Path $global:RepoRoot '\files\winget\packages.json'
     winget import --import-file $PackagesFile --accept-source-agreements --accept-package-agreements
 
-    Write-Host 'Done. WinGet packages installed successfully.'
+    Write-Host 'Done. WinGet packages installed.'
 }
 
 function Install-Fonts() {
     Write-Host 'Installing fonts...'
 
-    $FontFilesPath = Join-Path $global:RepoRoot '\files\Fonts\*.otf'
+    $FontFilesPath = Join-Path $global:RepoRoot '\files\fonts\*.otf'
 
     $fonts = (New-Object -ComObject Shell.Application).Namespace(0x14)
     foreach ($file in Get-ChildItem -Path $FontFilesPath -Recurse) {
@@ -110,12 +110,19 @@ function Install-AzPowerShell() {
 
     Install-Module -Name Az -Repository PSGallery -Force
     Write-Host 'Done. Azure PowerShell has been installed.'
+
+    Write-Host 'Importing default configuration for Azure PowerShell...'
+
+    $AzConfig = Join-Path $global:RepoRoot 'files\az\config.json'
+
+    Import-AzConfig -Path $AzConfig
+    Write-Host 'Done. Azure PowerShell configuration imported.'
 }
 
 function Set-PowerShellProfile() {
     Write-Host 'Setting PowerShell profile...'
 
-    $NewProfile = Join-Path $global:RepoRoot '\files\Profile.ps1'
+    $NewProfile = Join-Path $global:RepoRoot '\files\powershell\profile.ps1'
 
     if (!(Test-Path -Path $PROFILE.CurrentUserAllHosts)) {
         New-Item -ItemType File -Path $PROFILE.CurrentUserAllHosts -Force
@@ -129,35 +136,39 @@ function Set-EnvironmentVariables() {
     Write-Host 'Setting system environment variables...'
 
     [System.Environment]::SetEnvironmentVariable('DEVDRIVE', "$($global:DevDriveLetter):", 'Machine')
+    Write-Host 'Dev Drive environment variables set.'
 
     [System.Environment]::SetEnvironmentVariable('REPOS_ROOT', "$($global:DevDriveLetter):\Source\Repos", 'Machine')
     [System.Environment]::SetEnvironmentVariable('REPOS_VF', "$($global:DevDriveLetter):\Source\Repos\VictorFrye", 'Machine')
+    Write-Host 'Repository environment variables set.'
 
     [System.Environment]::SetEnvironmentVariable('PACKAGES_ROOT', "$($global:DevDriveLetter):\Packages", 'Machine')
     [System.Environment]::SetEnvironmentVariable('NPM_CONFIG_CACHE', "$($global:DevDriveLetter):\Packages\.npm", 'Machine')
     [System.Environment]::SetEnvironmentVariable('NUGET_PACKAGES', "$($global:DevDriveLetter):\Packages\.nuget", 'Machine')
     [System.Environment]::SetEnvironmentVariable('PIP_CACHE_DIR', "$($global:DevDriveLetter):\Packages\.pip", 'Machine')
     [System.Environment]::SetEnvironmentVariable('MAVEN_OPTS', "-Dmaven.repo.local=$($global:DevDriveLetter):\Packages\.maven $env:MAVEN_OPTS", 'Machine')
+    Write-Host 'Package manager environment variables set.'
 
     [System.Environment]::SetEnvironmentVariable('DOTNET_ROOT', "$env:PROGRAMFILES\dotnet", 'Machine')
     [System.Environment]::SetEnvironmentVariable('PATH', "$env:PATH;%DOTNET_ROOT%", 'Machine')
     [System.Environment]::SetEnvironmentVariable('DOTNET_ENVIRONMENT', "Development", 'Machine')
     [System.Environment]::SetEnvironmentVariable('ASPNETCORE_ENVIRONMENT', 'Development', 'Machine')
+    Write-Host '.NET environment variables set.'
 
     [System.Environment]::SetEnvironmentVariable('NVIM_ROOT', "$env:PROGRAMFILES\Neovim", 'Machine')
     [System.Environment]::SetEnvironmentVariable('PATH', "$env:PATH;%NVIM_ROOT_%\bin", 'Machine')
+    Write-Host 'Neovim environment variables set.'
 
     $MsftJavaHome = Join-Path $env:ProgramFiles 'Microsoft'
-    $Java11 = Get-ChildItem -Path $MsftJavaHome -Filter 'jdk-11*' -Name
     $Java17 = Get-ChildItem -Path $MsftJavaHome -Filter 'jdk-17*' -Name
     $Java21 = Get-ChildItem -Path $MsftJavaHome -Filter 'jdk-21*' -Name
-    [System.Environment]::SetEnvironmentVariable('JDK_11_HOME', "$MsftJavaHome\$Java11\", 'Machine')
     [System.Environment]::SetEnvironmentVariable('JDK_17_HOME', "$MsftJavaHome\$Java17\", 'Machine')
     [System.Environment]::SetEnvironmentVariable('JDK_21_HOME', "$MsftJavaHome\$Java21\", 'Machine')
     [System.Environment]::SetEnvironmentVariable('JAVA_HOME', '%JDK_21_HOME%', 'Machine')
     [System.Environment]::SetEnvironmentVariable('PATH', "$env:PATH;%JAVA_HOME%", 'Machine')
+    Write-Host 'Java environment variables set.'
 
-    Write-Host 'Done. System environment variables have been set.'
+    Write-Host 'Done. All system environment variables have been set.'
 }
 
 Write-Host 'Starting installation of my dotfiles...'
