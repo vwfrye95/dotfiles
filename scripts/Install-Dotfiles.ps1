@@ -70,32 +70,10 @@ function Install-WinGetPackages() {
     Write-Host 'Done. WinGet packages installed.'
 }
 
-function Install-Fonts() {
-    Write-Host 'Installing fonts...'
-
-    $FontFilesPath = Join-Path $global:RepoRoot '\files\fonts\*.otf'
-
-    $fonts = (New-Object -ComObject Shell.Application).Namespace(0x14)
-    foreach ($file in Get-ChildItem -Path $FontFilesPath -Recurse) {
-        $fileName = $file.Name
-        if (!(Test-Path -Path "C:\Windows\Fonts\$fileName")) {
-            Get-ChildItem $file | ForEach-Object { $fonts.CopyHere($_.fullname) }
-        }
-    }
-
-    Write-Host 'Done. Fonts have been installed.'
-}
-
 function Install-PoshGit() {
     Write-Host 'Installing PoshGit...'
     PowerShellGet\Install-Module posh-git -Scope CurrentUser -Force
     Write-Host 'Done. PoshGit has been installed.'
-}
-
-function Install-TheFucker() {
-    Write-Host 'Installing TheFuck...'
-    Invoke-RestMethod -Uri 'https://raw.githubusercontent.com/mattparkes/PoShFuck/master/Install-TheFucker.ps1' | Invoke-Expression
-    Write-Host 'Done. TheFuck has been installed.'
 }
 
 function Install-AzPowerShell() {
@@ -177,9 +155,7 @@ Initialize-Git
 Format-DevDrive
 Get-Repository
 Install-WinGetPackages
-Install-Fonts
 Install-PoshGit
-Install-TheFucker
 Install-AzPowerShell
 Set-PowerShellProfile
 Set-EnvironmentVariables

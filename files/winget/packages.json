@@ -5,9 +5,6 @@
     {
       "Packages": [
         {
-          "PackageIdentifier": "Anaconda.Anaconda3"
-        },
-        {
           "PackageIdentifier": "CoreyButler.NVMforWindows"
         },
         {
@@ -15,18 +12,6 @@
         },
         {
           "PackageIdentifier": "GitHub.cli"
-        },
-        {
-          "PackageIdentifier": "GitHub.GitHubDesktop"
-        },
-        {
-          "PackageIdentifier": "Google.AndroidStudio"
-        },
-        {
-          "PackageIdentifier": "Google.Chrome"
-        },
-        {
-          "PackageIdentifier": "Google.PlatformTools"
         },
         {
           "PackageIdentifier": "Hashicorp.Terraform"
@@ -41,16 +26,10 @@
           "PackageIdentifier": "Kubernetes.kubectl"
         },
         {
-          "PackageIdentifier": "ManicTime.ManicTime"
+          "PackageIdentifier": "Microsoft.Azd"
         },
         {
           "PackageIdentifier": "Microsoft.AzureCLI"
-        },
-        {
-          "PackageIdentifier": "Microsoft.AzureDataStudio"
-        },
-        {
-          "PackageIdentifier": "Microsoft.Azure.Aztfy"
         },
         {
           "PackageIdentifier": "Microsoft.Azure.FunctionsCoreTools"
@@ -65,10 +44,7 @@
           "PackageIdentifier": "Microsoft.BingWallpaper"
         },
         {
-          "PackageIdentifier": "Microsoft.DevHome"
-        },
-        {
-          "PackageIdentifier": "Microsoft.DotNet.SDK.Preview"
+          "PackageIdentifier": "Microsoft.DotNet.SDK.9"
         },
         {
           "PackageIdentifier": "Microsoft.Edge.Beta"
@@ -78,9 +54,6 @@
         },
         {
           "PackageIdentifier": "Microsoft.NuGet"
-        },
-        {
-          "PackageIdentifier": "Microsoft.OpenJDK.17"
         },
         {
           "PackageIdentifier": "Microsoft.OpenJDK.21"
@@ -95,22 +68,7 @@
           "PackageIdentifier": "Microsoft.WindowsTerminal.Preview"
         },
         {
-          "PackageIdentifier": "Mozilla.Firefox"
-        },
-        {
           "PackageIdentifier": "Neovim.Neovim"
-        },
-        {
-          "PackageIdentifier": "PaulWoolcock.SyncOutlookandGooglecalendars"
-        },
-        {
-          "PackageIdentifier": "Postman.Postman"
-        },
-        {
-          "PackageIdentifier": "Python.Python.3.12"
-        },
-        {
-          "PackageIdentifier": "SlackTechnologies.Slack"
         }
       ],
       "SourceDetails": {

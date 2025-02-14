@@ -1,0 +1,253 @@
+# yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
+properties:
+  configurationVersion: 0.2.0
+  assertions:
+    
+    - resource: Microsoft.Windows.Developer/OsVersion
+      directives:
+        description: Verify min OS version requirement
+        allowPrerelease: true
+      settings:
+        MinVersion: '10.0.22000'
+
+    # TODO: Not sure if this actual works
+    - resource: PSDscResources/WindowsOptionalFeature
+      id: wsl
+      directives:
+        description: Verify WSL Enabled
+      settings:
+        Name: Microsoft-Windows-Subsystem-Linux
+        Ensure: Present
+
+  resources:
+    
+    # MARK: Windows
+    - resource: Microsoft.Windows.Developer/Taskbar
+      directives:
+        description: Set taskbar settings
+        allowPrerelease: true
+      settings:
+        Alignment: Middle # [KeepCurrentValue, Left]
+        HideLabelsMode: Always # [KeepCurrentValue, WhenFull, Never]
+        SearchBoxMode: ShowIconOnly # [KeepCurrentValue, ShowIconOnly, SearchBox, ShowIconAndLabel]
+        TaskViewButton: Hide # [KeepCurrentValue, Show]
+        WidgetsButton: Show # [KeepCurrentValue, Show]
+        RestartExplorer: True # Use caution when setting `RestartExplorer: true` as this will force explorer to close. Required for `HideLabelsMode`.
+    
+    - resource: Microsoft.Windows.Developer/WindowsExplorer
+      directives:
+        description: Set Windows Explorer settings
+        allowPrerelease: true
+      settings:
+        FileExtensions: Show # [KeepCurrentValue, Hide]
+        HiddenFiles: Show # [KeepCurrentValue, Hide]
+        ItemCheckBoxes: Show # [KeepCurrentValue, Hide]
+        RestartExplorer: # Use caution when setting `RestartExplorer: true` as this will force explorer to close. Required for all WindowsExplorer settings.
+    
+    - resource: Microsoft.Windows.Developer/DeveloperMode
+      directives:
+        description: Enable Developer Mode
+        allowPrerelease: true
+      settings:
+        Ensure: Present
+
+    - resource: Microsoft.Windows.Developer/EnableDarkMode
+      directives:
+        description: Enable dark mode
+        allowPrerelease: true
+      settings:
+        Ensure: Present
+        # Use caution when setting `RestartExplorer: true` as this will force explorer to close.
+        RestartExplorer: true # Required to apply changes
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Bing Wallpaper
+      settings:
+        id: Microsoft.BingWallpaper
+        source: winget
+    
+    # MARK: Web browsers
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Edge Beta
+      settings:
+        id: Microsoft.Edge.Beta
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Edge Canary
+      settings:
+        id: Microsoft.Edge.Canary
+        source: winget
+
+    # MARK: Core tools
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install PowerShell 7
+      settings:
+        id: Microsoft.PowerShell.Preview
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install .NET SDK 9
+        allowPrerelease: true
+      settings:
+        id: Microsoft.DotNet.SDK.9
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Java 21
+      settings:
+        id: Microsoft.OpenJDK.21
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Node Version Manager
+      settings:
+        id: CoreyButler.NVMforWindows
+        source: winget
+
+    # MARK: Power User
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Windows Terminal
+      settings:
+        id: Microsoft.WindowsTerminal.Preview
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Oh My Posh
+      settings:
+        id: JanDeDobbeleer.OhMyPosh
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install PowerToys
+      settings:
+        id: Microsoft.PowerToys
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Neovim
+      settings:
+        id: Neovim.Neovim
+        source: winget
+
+    # MARK: VS Code
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Visual Studio Code
+      settings:
+        id: Microsoft.VisualStudioCode.Insiders
+        source: winget
+       
+    # MARK: Visual Studio
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: vsPackage
+      directives:
+        description: Install Visual Studio 2022
+      settings:
+        id: Microsoft.VisualStudio.2022.Professional.Preview
+        source: winget
+   
+    - resource: Microsoft.VisualStudio.DSC/VSComponents
+      dependsOn:
+        - vsPackage
+      directives:
+        description: Install required VS workloads
+        allowPrerelease: true
+      settings:
+        productId: Microsoft.VisualStudio.Product.Professional
+        channelId: VisualStudio.17.Release
+        vsConfigFile: '${WinGetConfigRoot}\..\files\vs\.vsconfig'
+
+    # MARK: Azure
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Azure CLI
+      settings:
+        id: Microsoft.AzureCLI
+        source: winget
+
+    # TODO: Az PowerShell module
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Azure Developer CLI
+      settings:
+        id: Microsoft.Azd
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Azure Functions Core Tools
+      settings:
+        id: Microsoft.Azure.FunctionsCoreTools
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Azure Storage Emulator
+      settings:
+        id: Microsoft.Azure.StorageEmulator
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Azure Storage Explorer
+      settings:
+        id: Microsoft.Azure.StorageExplorer
+        source: winget
+
+    # MARK: GitHub
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install GitHub CLI
+      settings:
+        id: GitHub.cli
+        source: winget
+
+    # MARK: Docker
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      dependsOn:
+        - wsl
+      directives:
+        description: Install Docker Desktop
+      settings:
+        id: Docker.DockerDesktop
+        source: winget
+
+    # MARK: Kubernetes
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      dependsOn:
+        - wsl
+      directives:
+        description: Install kubectl
+      settings:
+        id: Kubernetes.kubectl
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      dependsOn:
+        - wsl
+      directives:
+        description: Install Helm
+      settings:
+        id: Helm.Helm
+        source: winget
+
+    # MARK: Terraform
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Terraform
+      settings:
+        id: Hashicorp.Terraform
+        source: winget
